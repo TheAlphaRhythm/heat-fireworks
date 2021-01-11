@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Fireworks</title>
+    <style>
+        body,
+        html {
+            height: 100%;
+        }
+
+        body {
+            background: none;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+
+        #main {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            user-select: none;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <canvas id="canvas"></canvas>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/5.0.0-rc/pixi.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+
+    <script src="heat.js"></script>
+    <script src="firework.js"></script>
+
+    <script>
+
+        (function () {
+
+
+            document.addEventListener("click", function (event) {
+
+                const normalizedX = (event.clientX * 1.0 / window.innerWidth).toPrecision(3);
+                const normalizedY = (event.clientY * 1.0 / window.innerHeight).toPrecision(3);
+                
+                drawClick(normalizedX, normalizedY);
+
+            });
+
+            heat.addEventListener('click', (e) => {
+                drawClick(parseFloat(e.detail.x), parseFloat(e.detail.y));
+                console.log(e);
+            });
+
+            function drawClick(clickX, clickY) {
+            	canvas = document.getElementById("canvas");
+
+                const screenX = parseInt(clickX * innerWidth);
+                const screenY = parseInt(clickY * innerHeight);
+                console.log(screenX);
+                console.log(screenY);
+                window.fireworks.push(new Firework(screenX, screenY));
+            }
+        })();
+
+    </script>
+
+</body>
+
+</html>
